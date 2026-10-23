@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Parking · Live bays and next-hour forecast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="mark" aria-hidden="true">P</div>
+    <div class="title"><span id="site">Smart Parking</span><small>AI Smart Parking &amp; Congestion Forecaster</small></div>
+    <div class="spacer"></div>
+    <span class="clock" id="clock"></span>
+    <button class="btn" id="openLevels" aria-haspopup="dialog">Levels list</button>
+    <a class="linkish" href="/admin">Admin</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" aria-label="Live parking availability">
+    <div class="board">
+      <div>
+        <h1>FREE BAYS NOW</h1>
+        <div class="total-num" id="totalFree" aria-live="polite">--</div>
+        <div class="total-lbl" id="totalLbl">of -- bays</div>
+        <p class="sub" id="forecastLine">Loading forecast…</p>
+      </div>
+      <div class="rows" id="rows" aria-label="Free bays by level"></div>
+    </div>
+    <p class="tip" id="tip" hidden></p>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Occupancy: last 6 hours and next hour</h2>
+      <p class="hint" id="chartHint">Solid line is measured occupancy. Dashed line is the AI forecast.</p>
+      <div class="scope" id="scope" role="group" aria-label="Chart scope"></div>
+      <div class="chart-box"><canvas id="chart" aria-label="Occupancy chart"></canvas></div>
+    </section>
+
+    <section class="card">
+      <h2>Live camera detection</h2>
+      <p class="hint">YOLOv8 counts vehicles and marks each bay green (free) or red (taken).</p>
+      <div class="cam"><img id="cam" alt="Live parking camera with bays marked free or occupied" src="/api/stream"></div>
+      <div class="cam-meta">
+        <span id="camBadge" class="badge">…</span>
+        <span id="camCount">–</span>
+      </div>
+    </section>
+  </div>
+  <footer id="foot">Prototype built for Sime Darby Property University Hackathon 2026. Levels and counts are simulated for demonstration.</footer>
+</main>
+
+<div class="drawer-bg" id="bg" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle" hidden>
+  <header><h2 id="dTitle">Levels and zones</h2><button class="btn ghost small" id="closeLevels">Close</button></header>
+  <div class="body" id="drawerBody"></div>
+</aside>
+
+<script src="/static/vendor/chart.umd.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

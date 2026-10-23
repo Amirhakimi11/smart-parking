@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Parking · Operations dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="mark" aria-hidden="true">P</div>
+    <div class="title"><span id="site">Operations dashboard</span><small>Smart Parking · Admin</small></div>
+    <div class="spacer"></div>
+    <a class="linkish" href="/">Public view</a>
+    <button class="btn ghost small" id="logout" hidden>Sign out</button>
+  </div>
+</header>
+
+<div id="loginBox" class="login" hidden>
+  <h1>Admin sign in</h1>
+  <p class="ok-note">Enter the admin password to manage zones and view forecasts.</p>
+  <label for="pw" class="ok-note">Password</label>
+  <input id="pw" type="password" autocomplete="current-password">
+  <div class="err" id="err" role="alert"></div>
+  <button class="btn" id="loginBtn">Sign in</button>
+</div>
+
+<main class="wrap" id="app" hidden>
+  <div class="kpis">
+    <div class="kpi"><div class="v" id="kOcc">–</div><div class="l">Occupancy now</div></div>
+    <div class="kpi"><div class="v" id="kFree">–</div><div class="l">Bays available</div></div>
+    <div class="kpi"><div class="v" id="kF60">–</div><div class="l">Forecast occupancy in 60 min</div></div>
+    <div class="kpi"><div class="v" id="kAlerts">–</div><div class="l">Active alerts</div></div>
+  </div>
+
+  <div class="two">
+    <section class="card">
+      <h2>Forecast accuracy (60 min ahead)</h2>
+      <p class="hint" id="accHint">Predicted vs actual bays occupied across all zones.</p>
+      <div class="chart-box"><canvas id="accChart"></canvas></div>
+    </section>
+    <section class="card">
+      <h2>Alerts</h2>
+      <div id="alerts"></div>
+      <h2 style="margin-top:18px">Demo scenario</h2>
+      <p class="hint">Push demand up or down for a few minutes to show how the forecast reacts.</p>
+      <div class="scen" id="scen"></div>
+    </section>
+  </div>
+
+  <section class="card" style="margin-bottom:16px">
+    <h2>Zones</h2>
+    <p class="hint">Change capacity or close a zone for maintenance. Closed zones show zero available bays to drivers.</p>
+    <div style="overflow-x:auto"><table class="data" id="zones"></table></div>
+  </section>
+
+  <div class="two">
+    <section class="card">
+      <h2>Model quality</h2>
+      <p class="hint">Measured on the last days of data the model never saw during training.</p>
+      <div id="metrics"></div>
+    </section>
+    <section class="card">
+      <h2>System health</h2>
+      <div id="health"></div>
+      <p style="margin-top:14px"><button class="btn ghost small" id="csv">Download last 24 h readings (CSV)</button></p>
+    </section>
+  </div>
+</main>
+
+<script src="/static/vendor/chart.umd.js"></script>
+<script src="/static/admin.js"></script>
+</body>
+</html>
